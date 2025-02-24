@@ -1,8 +1,8 @@
 # Group 2
-Project Name: PROJECT_NAME
+Project Name: Group 2
 
-[MVP Link](https://docs.google.com/document/d/1xFI9DDdO5HZAcu36Y6NL-RTDry5E3WHkfy-ZEWuqbXM/edit?usp=sharing)
+[MVP Link](https://docs.google.com/document/d/1lUvNtAxjn0D6LkoI36b1jPZREPjyQ49Z/edit)
 
-Team Members: eddiebo2, paull6
+Team Members: eddiebo2, paull6, mollyc4
 
-Project Manager: PM_NETID
+Project Manager: eshasm2, yse2
