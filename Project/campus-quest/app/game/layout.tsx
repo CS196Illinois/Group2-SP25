@@ -1,8 +1,11 @@
+import Navbar from "../task/navbar";
 
 export default function Layout( {children}: Readonly<{children: React.ReactNode;}>) {
     return (
-        <html lang="en">
-            
-        </html>
+        <section className="interFont antialiased">
+            {children}
+
+            <Navbar selected={1}/>
+        </section>
     )
 }

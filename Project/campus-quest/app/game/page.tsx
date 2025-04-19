@@ -1,5 +1,9 @@
+import Buildings from "./mapMaster"
+
 export default function Game() {
     return (
-        <div>a</div>
+        <div>
+            <Buildings/>
+        </div>
     )
 }

@@ -3,10 +3,21 @@
 
   .react-calendar__navigation__label {
     font-weight: bold;
+    background: #1C2A35;
   }
 
   .react-calendar__navigation__arrow {
     flex-grow: 0.333;
+    background: #1C2A35;
+
+    &:hover {
+      background-color: #FE532D;
+    }
+  }
+
+  
+  .react-calendar__navigation__next2-button, .react-calendar__navigation__prev2-button {
+    display: none;
   }
 }
 
@@ -18,14 +29,13 @@
 
 button {
     margin: 3px;
-    background-color: #1C2A35;
     border: 0;
     border-radius: 3px;
     color: #ffffff;
     padding: 5px 0;
 
     &:hover {
-      background-color: #FE532D;
+      background-color: #fe532d;
     }
 
     &:active {
@@ -46,5 +56,13 @@ button {
     opacity: 0.7;
   }
   .react-calendar__month-view__days__day--weekend {
-    color: #a00000;
+    color: #fe532d;
+
+    &:hover {
+      background-color: #ffffff;
+    }
+
+    &:active {
+      background-color: #1C2A35;
+    }
   }

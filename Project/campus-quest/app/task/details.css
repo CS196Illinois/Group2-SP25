@@ -1,0 +1,22 @@
+.highlight {
+    animation-name: color_change;
+    animation-duration: 1s;
+    animation-iteration-count: initial;
+}
+
+@keyframes color_change {
+    from {
+        border-color: #fe532d;
+    }
+
+    to {
+        border-color: none;
+    }
+}
+
+a {
+    &:hover {
+        text-decoration: underline;
+        color: #fe532d;
+    }
+}

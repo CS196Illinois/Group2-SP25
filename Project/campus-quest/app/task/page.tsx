@@ -1,4 +1,4 @@
-import Tasks from "@/app/task/dailyTask"
+import Tasks from "./taskMaster"
 
 export default function TaskTracker() {
     return (
