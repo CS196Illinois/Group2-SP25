@@ -1,0 +1,5 @@
+Flask
+PyMuPDF  # for PDF text extraction
+pytesseract  # for OCR on images
+Pillow  # for image handling
+requests  # for API calls to Gradescope/PrairieLearn
