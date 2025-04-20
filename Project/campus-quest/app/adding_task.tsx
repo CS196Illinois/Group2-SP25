@@ -48,49 +48,39 @@ const Add_Task_Form = () => {
         const reader = new FileReader();
         reader.onload = (event) => {
             const content = event.target?.result as string;
+            const jcalData = ICAL.parse(content);
+            const comp = new ICAL.Component(jcalData);
+            const vevents = comp.getAllSubcomponents("vevent");
 
-            // Split content into event blocks
-            const events = content.split("BEGIN:VEVENT").slice(1);
+            const parsedTasks = vevents.map((vevent) => {
+                const event = new ICAL.Event(vevent);
+                const start = event.startDate.toJSDate(); // Handles both DATE and DATE-TIME
+                const name = event.summary || "Untitled";
 
-            const parsedTasks = events.map((eventBlock) => {
-                const nameMatch = eventBlock.match(/SUMMARY:(.+)/);
-                const dtstartMatch = eventBlock.match(/DTSTART(?:;[^:]*)?:(\d{8}T\d{6}Z?)/);
-
-                if (!nameMatch || !dtstartMatch) return null;
-
-                const name = nameMatch[1].trim();
-                const rawDateTime = dtstartMatch[1].trim();
-
-                // Handle possible "Z" (UTC) at end
-                const formattedDateTime = rawDateTime.endsWith("Z")
-                    ? rawDateTime
-                    : rawDateTime + "Z"; // Assume UTC if not specified
-
-                const parsedDate = new Date(
-                    formattedDateTime.replace(
-                        /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z/,
-                        "$1-$2-$3T$4:$5:$6Z"
-                    )
-                );
-
-                const dueDate = parsedDate.toISOString().split("T")[0]; // yyyy-mm-dd
-                const dueTime = parsedDate.toTimeString().split(":").slice(0, 2).join(":"); // hh:mm
+                const dueDate = start.toISOString().split("T")[0];
+                const dueTime = event.startDate.isDate
+                    ? "" // all-day
+                    : start.toTimeString().split(":").slice(0, 2).join(":");
 
                 return {
                     name,
                     dueDate,
                     dueTime,
-                    comments: "",
-                    category: "",
+                    comments: event.description || "",
+                    category: "", // You could extract course code from name if needed
                 };
-            }).filter(task => task !== null);
+            });
 
             setTaskList((prev) => [...prev, ...parsedTasks]);
         };
 
         reader.readAsText(file);
     };
-    export const saveAllTasksToSupabase = async (tasks: typeof taskList) => {
+
+
+
+
+    /*export const saveAllTasksToSupabase = async (tasks: typeof taskList) => {
         if (tasks.length === 0) return;
 
         const { error } = await supabase.from("tasks").insert(
@@ -113,7 +103,7 @@ const Add_Task_Form = () => {
             setReviewDialogOpen(false);
         }
     };
-
+    */
 
 
 
@@ -470,13 +460,13 @@ const Add_Task_Form = () => {
                         </button>
                         <button
                             className="bg-green-600 text-white px-4 py-2 rounded-md"
-                            onClick={() => saveAllTasksToSupabase(taskList)}
+                            onClick={() => saveAllTasksToSupabase(taskList)*}
                         >
-                        Submit All Tasks
-                    </button>
-                </div>
-            </DialogContent>
-        </Dialog >
+                            Submit All Tasks
+                        </button>
+                    </div>
+                </DialogContent>
+            </Dialog >
         </>
     )
 }
