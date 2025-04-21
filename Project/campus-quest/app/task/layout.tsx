@@ -12,11 +12,9 @@ const interFont = Inter ({
 })
 export default function Layout( {children}: Readonly<{children: React.ReactNode;}>) {
     return (
-        <html lang="en">
-            <body className="interFont antialiased">
-                {children}
-                <Navbar selected={0}/>
-            </body>
-        </html>
+        <section>
+            {children}
+            <Navbar selected={0}/>
+        </section>
     )
 }

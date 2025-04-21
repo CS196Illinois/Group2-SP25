@@ -1,4 +1,5 @@
 "use client"
+import Add_Task_Form from "./addTasks";
 import CalendarController from "./calendar";
 import TaskList from "./taskList";
 import { taskCounts, taskData } from "./taskMaster";
@@ -18,7 +19,6 @@ const TaskPage = ({rawTasks, tasks, taskCounts} : taskPageProps) => {
                         -ms-overflow-style: none;
                         scrollbar-width: none;
                     }`;
-    const [editing, setEditItem] = useState(0)
     const [taskState, setTasks] = useState(tasks)
     const [taskCountsState, setCounts] = useState(taskCounts)
     const [refresh, trigger] = useState(false)
@@ -26,15 +26,20 @@ const TaskPage = ({rawTasks, tasks, taskCounts} : taskPageProps) => {
 
     return (
         <div className="h-screen w-screen bg-[#061119]">
-            <h1 className = "text-center text-[64px] h-1/10 text-white">Task Tracker</h1>
+            <h2 className = "text-center text-[64px] h-1/10 text-white">Task Tracker</h2>
             <div className = "flex justify-center h-9/10">
-                <div className = "w-2/5 p-5 justify-center pb-10">
-                    <div className="bg-[#171E24] p-5 rounded-[10] w-120 self-start h-3/5">
+                <div className = "w-2/5 p-5 justify-center h-19/20 overflow-hidden">
+                    <div className="bg-[#171E24] p-5 rounded-[10] w-120 self-start">
                         <CalendarController counts={taskCounts}/>
                     </div>
-                    <div className="pt-5 pb-10 h-2/5">
-                        <div className="bg-[#171E24] w-120 h-1/1 rounded-[10] text-center text-white py-3">
-                            <p>{rawTasks.length} Tasks Remaining</p>
+                    <div className="pt-5 pb-10 h-1/5">
+                        <div className="bg-[#171E24] w-120 h-200 rounded-[10] text-center items-center text-white py-3">
+                            <div className={rawTasks.length > 0 ? "text-[30px]":"hidden"}>
+                                <h2>{rawTasks.length} Tasks Remaining</h2>
+                                <h2 className="pb-10">Upcoming deadline: {rawTasks[0].due_date.split("T")[0]}</h2>
+                                
+                                <Add_Task_Form/>
+                            </div>
                         </div>
                     </div>
                 </div>

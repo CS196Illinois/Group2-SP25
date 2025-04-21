@@ -1,4 +1,4 @@
-import supabase from "../supabaseClient";
+import supabase from "../../lib/supabaseClient";
 import TaskPage from "./tasksLayout";
 
 export type taskData = {
@@ -49,6 +49,26 @@ export const Delete = async (id: string) => {
                             .delete()
                             .eq("id", id)
     
+}
+
+export const AddTasks = async (tasks: any[]) => {
+    if (tasks.length === 0) return;
+    const { error } = await supabase.from("tasks").insert(
+        tasks.map((task) => ({
+            name: task.name,
+            comments: task.comments,
+            due_date: task.dueDate,
+            category: task.category,
+        }))
+    );
+
+    if (error) {
+        console.error("❌ Failed to submit tasks:", error.message);
+        alert("Something went wrong while submitting tasks.");
+    } else {
+        console.log("✅ All tasks submitted!");
+        alert("All tasks submitted successfully.");
+    }
 }
 
 export default Tasks

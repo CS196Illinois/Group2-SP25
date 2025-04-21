@@ -1,4 +1,4 @@
-import supabase from "../supabaseClient"
+import supabase from "../../lib/supabaseClient"
 import GamePage from "./gameLayout"
 
 const Buildings = async () => {
