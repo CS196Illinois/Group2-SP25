@@ -9,9 +9,10 @@ interface taskPageProps {
     rawTasks : taskData[]
     tasks : {any?: taskData[]}
     taskCounts : taskCounts
+    coinsData : number
 }
 
-const TaskPage = ({rawTasks, tasks, taskCounts} : taskPageProps) => {
+const TaskPage = ({rawTasks, taskCounts, coinsData} : taskPageProps) => {
     const style = `.no-scrollbar::-webkit-scrollbar {
                         display: none;
                     }
@@ -19,9 +20,10 @@ const TaskPage = ({rawTasks, tasks, taskCounts} : taskPageProps) => {
                         -ms-overflow-style: none;
                         scrollbar-width: none;
                     }`;
-    const [taskState, setTasks] = useState(tasks)
+    const [taskState, setTasks] = useState(rawTasks)
     const [taskCountsState, setCounts] = useState(taskCounts)
     const [refresh, trigger] = useState(false)
+    const [coins, setCoins] = useState(coinsData)
     if(refresh) trigger(false)
 
     return (
@@ -36,9 +38,9 @@ const TaskPage = ({rawTasks, tasks, taskCounts} : taskPageProps) => {
                         <div className="bg-[#171E24] w-120 h-200 rounded-[10] text-center items-center text-white py-3">
                             <div className={rawTasks.length > 0 ? "text-[30px]":"hidden"}>
                                 <h2>{rawTasks.length} Tasks Remaining</h2>
-                                <h2 className="pb-10">Upcoming deadline: {rawTasks[0].due_date.split("T")[0]}</h2>
-                                
+                                <h2 className="pb-3">Upcoming deadline: {rawTasks[0].due_date.split("T")[0]}</h2>
                                 <Add_Task_Form/>
+                                <h2 className="pt-3">Coins: {coins}</h2>
                             </div>
                         </div>
                     </div>
@@ -47,7 +49,7 @@ const TaskPage = ({rawTasks, tasks, taskCounts} : taskPageProps) => {
                     <style>
                         {style}
                     </style>
-                    <TaskList tasks={taskState} counts={taskCountsState} trig = {trigger}/>
+                    <TaskList tasks={taskState} counts={taskCountsState} trig = {trigger} coins={coins} setCoins={setCoins}/>
                 </div>
             </div>
         </div>

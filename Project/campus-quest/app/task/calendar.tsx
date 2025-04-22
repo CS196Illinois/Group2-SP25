@@ -16,10 +16,19 @@ const CalendarController = ({counts} : {counts : taskCounts}) => {
 
     date.setDate(1)
 
-    const minDate = new Date(Object.keys(counts)[0])
+    const sorted = Object.keys(counts).sort((a, b) => {
+        const dateA = new Date(a)
+        const dateB = new Date(b)
+        if (dateA == dateB) {
+            return 0
+        } else if (dateA > dateB) {
+            return 1
+        }
+        return -1
+    })
+    const minDate = new Date(sorted[0])
     minDate.setMonth(minDate.getMonth() - 1)
-
-    const maxDate = new Date(Object.keys(counts).toReversed()[0])
+    const maxDate = new Date(sorted[sorted.length-1])
 
     function tileClassName ({date, view,}: {date: Date, view: string}) {
         var day = date.toISOString().split("T")[0]
