@@ -5,8 +5,8 @@ import "./details.css"
 import { act, Dispatch, SetStateAction, useState } from "react";
 import { Delete } from "./taskMaster";
 
-const TaskList = ({tasks, counts, trig, coins, setCoins}: 
-    {tasks : taskData[], counts : taskCounts, trig : Dispatch<SetStateAction<boolean>>,
+const TaskList = ({tasks, setTasks, counts, coins, setCoins}: 
+    {tasks : taskData[], setTasks : Dispatch<SetStateAction<taskData[]>>, counts : taskCounts,
                 coins: number, setCoins: Dispatch<SetStateAction<number>>}) => {
     const [active, setActive] = useState(0)
     const [activeOption, setOption] = useState(0)
@@ -14,31 +14,29 @@ const TaskList = ({tasks, counts, trig, coins, setCoins}:
     
     function removeTask (dayStr: string, id: string) {
         const day = dayStr as keyof {any?:taskData[]}
-        tasks = tasks.filter(x => x.id != id)
+        setTasks(tasks.filter(x => x.id != id))
+        console.log(day)
         if (counts[day] == 1) delete counts[day]
-        else {
-            counts[day] = counts[day]!--
-        }
-        trig(true)
+        else counts[day]!--
         setActive(0)
         setOption(0)
     }
 
     function editTaskFunc (dayStr: string, id: string) {
         const day = dayStr as keyof {any?:taskData[]}
-        tasks = tasks.filter(x => x.id != id)
-        tasks.push(editTask!)
+        const newDay = editTask?.due_date.split("T")[0]
+        setTasks([...tasks.filter(x => x.id != id), editTask!])
         counts[day]!--
+        console.log(editTask?.due_date)
+        counts[newDay] = (counts[newDay] ? counts[newDay] : 0) + 1
         if (counts[day] == 0) delete counts[day]
-        counts[editTask?.due_date] = (counts[editTask?.due_date] ? counts[editTask?.due_date]! : 0) + 1
         setEditTask(undefined)
-        trig(true)
         setActive(0)
         setOption(0)
     }
 
-    const groupedTasks : {string?:taskData[]} = Object.groupBy((tasks.sort(CompareTasks)), ({due_date} : {due_date: String}) => due_date.split("T")[0])
-   
+    var groupedTasks : {string?:taskData[]} = Object.groupBy((tasks.sort(CompareTasks)), ({due_date} : {due_date: String}) => due_date.split("T")[0])
+    
     return (
     <div id = "taskList" className = "overflow-auto h-full p-5 rounded-[25] bg-[#171E24] no-scrollbar">
         {Object.entries(groupedTasks).map((Day) => (
@@ -162,9 +160,9 @@ const TaskList = ({tasks, counts, trig, coins, setCoins}:
                             </div>
                             <div className={activeOption == 3 ? "select-none bg-green-500 w-12 rounded-[3] text-white text-[12px]":"hidden"}
                                 onClick={()=> {
-                                    setCoins(coins + item.coins)
-                                    CompleteTask(coins)
                                     removeTask(Day[0], item.id)
+                                    setCoins(coins + item.coins)
+                                    // CompleteTask(coins + item.coins)
                                 }}>
                                 <p className="align-middle">Finish Task</p>
                             </div>
@@ -173,6 +171,7 @@ const TaskList = ({tasks, counts, trig, coins, setCoins}:
                 ))}
             </div>
         ))}
+        <div className="pb-10"></div>
     </div>
     )
 }

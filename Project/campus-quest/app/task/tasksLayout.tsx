@@ -22,9 +22,7 @@ const TaskPage = ({rawTasks, taskCounts, coinsData} : taskPageProps) => {
                     }`;
     const [taskState, setTasks] = useState(rawTasks)
     const [taskCountsState, setCounts] = useState(taskCounts)
-    const [refresh, trigger] = useState(false)
     const [coins, setCoins] = useState(coinsData)
-    if(refresh) trigger(false)
 
     return (
         <div className="h-screen w-screen bg-[#061119]">
@@ -49,7 +47,7 @@ const TaskPage = ({rawTasks, taskCounts, coinsData} : taskPageProps) => {
                     <style>
                         {style}
                     </style>
-                    <TaskList tasks={taskState} counts={taskCountsState} trig = {trigger} coins={coins} setCoins={setCoins}/>
+                    <TaskList tasks={taskState} counts={taskCountsState} setTasks = {setTasks} coins={coins} setCoins={setCoins}/>
                 </div>
             </div>
         </div>

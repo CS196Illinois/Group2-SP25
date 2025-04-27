@@ -16,23 +16,19 @@ export type taskCounts =  {
 
 const uid = 1
 const Tasks = async () => {
-    const { data, error } = await supabase
-                                    .from("tasks")
-                                    .select("id, name, class, due_date, coins, link, comments, user_id")
-                                    .eq("user_id", uid)
-    if (error) {
-        console.error('Error fetching tasks:', error);
+    const batch = await Promise.all([
+        await supabase.from("tasks").select("id, name, class, due_date, coins, link, comments").eq("user_id", uid),
+        await supabase.from("users").select("id, Coins").eq("id", uid)
+    ])
+    if (batch[0].error || batch[1].error) {
+        console.error('Error fetching tasks:', batch[0].error);
+        console.error('Error fetching coins', batch[1].error)
         return <div>Error loading tasks</div>;
     }
-    var rawTasks = JSON.parse(JSON.stringify(data || []));
+    var rawTasks = JSON.parse(JSON.stringify(batch[0].data || []));
     var tasks = Object.groupBy((rawTasks.sort(CompareTasks)), ({due_date} : {due_date: String}) => due_date.split("T")[0])
     var taskCounts =  Object.fromEntries(Object.entries(tasks).map((Day) => [Day[0], Day[1]?.length]))
-
-    const response = await supabase
-                                    .from("users")
-                                    .select("id, Coins")
-                                    .eq("id", uid)
-    const coins = response.data?.filter(x => x.id == uid)[0].Coins
+    const coins = batch[1].data?.filter(x => x.id == uid)[0].Coins
 
     return (
         <TaskPage rawTasks = {rawTasks} coinsData = {coins} tasks = {JSON.parse(JSON.stringify(tasks))} taskCounts={taskCounts}/>
@@ -51,7 +47,7 @@ export const CompleteTask = async (coins: number) => {
     // Delete(id)
     const {error} = await supabase
                         .from("users")
-                        .update({Coins : coins})
+                        .update({"Coins" : coins})
                         .eq("id", uid)
 }
 
