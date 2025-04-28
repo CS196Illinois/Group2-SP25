@@ -134,6 +134,14 @@ const Add_Task_Form = () => {
                 </DialogTrigger>
                 <DialogContent className="text-center">
                     <h2 className="text-xl font-bold mb-4">How would you like to add your task ?</h2>
+                    <h1>Guidelines :</h1>
+                    <ol>
+                        <li>
+                            <h1>For Gradescope or PrairieLearn, Click on <b>PDF</b> </h1>
+                            <h1>For Canvas or SmartPhysics, Click on <b>URL</b> </h1>
+                        </li>
+                    </ol>
+
                     <button
                         className="bg-orange-500 text-white px-5 py-4 rounded-md"
                         onClick={() => {
@@ -170,24 +178,6 @@ const Add_Task_Form = () => {
                         className="bg-orange-500 text-white px-4 py-2 rounded-md"
                         onClick={() => {
                             setSecondurlOpen(false)
-                            setThirdurl_gradeOpen(true)
-                        }}
-                    >
-                        Gradescope
-                    </button>
-                    <button
-                        className="bg-orange-500 text-white px-4 py-2 rounded-md"
-                        onClick={() => {
-                            setSecondurlOpen(false)
-                            setThirdurl_PLOpen(true)
-                        }}
-                    >
-                        Prairie Learn
-                    </button>
-                    <button
-                        className="bg-orange-500 text-white px-4 py-2 rounded-md"
-                        onClick={() => {
-                            setSecondurlOpen(false)
                             setThirdurl_canvasOpen(true)
                         }}
                     >
@@ -208,33 +198,13 @@ const Add_Task_Form = () => {
             {/* If PrairieLearn is clicked Popup URL */}
             <Dialog open={thirdurl_PL_Open} onOpenChange={setThirdurl_PLOpen}>
                 <DialogContent className="text-center">
-                    <h2 className="text-xl font-bold mb-4">What is your course name ?</h2>
-                    <input type="text" placeholder="Enter your course name here" name="course_name_SP_PL" />
-                    <input type="text" placeholder="Enter the URL here" name="Smartphys_or_PL_url" />
+                    <h2 className="text-xl font-bold mb-4">Upload your PDF</h2>
+                    <input type="file" name="PDF_file" />
                     <button
                         className="bg-blue-950 text-white px-3 py-2 rounded-md"
                         onClick={() => {
                             setThirdurl_PLOpen(false)
-                            setFinalsubmission(true)
-                        }}
-                    >
-                        Extract
-                    </button>
-                </DialogContent>
-            </Dialog>
-
-            {/* If Gradescope is clicked Popup URL */}
-            <Dialog open={thirdurl_gradeOpen} onOpenChange={setThirdurl_gradeOpen}>
-                <DialogContent className="text-center">
-                    <h2 className="text-xl font-bold mb-4">Provide the course ID and the URL of the page ?</h2>
-                    <input type="text" placeholder="Enter your course ID here" name="course_ID_gradescope" />
-                    <input type="text" placeholder="Enter the URL here" name="gradescope_url" />
-                    <button
-                        className="bg-blue-950 text-white px-3 py-2 rounded-md"
-                        onClick={() => {
-                            setThirdurl_gradeOpen(false)
-
-                            setFinalsubmission(true)
+                            setReviewDialogOpen(true)
                         }}
                     >
                         Extract
@@ -282,16 +252,26 @@ const Add_Task_Form = () => {
             {/* If PDF is clicked */}
             <Dialog open={secondpdfOpen} onOpenChange={setSecondpdfOpen}>
                 <DialogContent className="text-center">
-                    <h2 className="text-xl font-bold mb-4">Upload your screenshot or PDF</h2>
-                    <input type="file" name="PDF_file" />
+                    <h2 className="text-2xl font-bold text-center">
+                        Which website do you want to extract from?
+                    </h2>
                     <button
-                        className="bg-blue-950 text-white px-3 py-2 rounded-md"
+                        className="bg-orange-500 text-white px-4 py-2 rounded-md"
                         onClick={() => {
                             setSecondpdfOpen(false)
-                            setReviewDialogOpen(true)
+                            setThirdurl_PLOpen(true)
                         }}
                     >
-                        Extract
+                        Gradescope
+                    </button>
+                    <button
+                        className="bg-orange-500 text-white px-4 py-2 rounded-md"
+                        onClick={() => {
+                            setSecondpdfOpen(false)
+                            setThirdurl_PLOpen(true)
+                        }}
+                    >
+                        Prairie Learn
                     </button>
                 </DialogContent>
             </Dialog>
@@ -460,7 +440,6 @@ const Add_Task_Form = () => {
                         </button>
                         <button
                             className="bg-green-600 text-white px-4 py-2 rounded-md"
-                            onClick={() => saveAllTasksToSupabase(taskList)*}
                         >
                             Submit All Tasks
                         </button>
