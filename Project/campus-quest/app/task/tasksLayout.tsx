@@ -34,9 +34,9 @@ const TaskPage = ({rawTasks, taskCounts, coinsData} : taskPageProps) => {
                     </div>
                     <div className="pt-5 pb-10 h-1/5">
                         <div className="bg-[#171E24] w-120 h-200 rounded-[10] text-center items-center text-white py-3">
-                            <div className={rawTasks.length > 0 ? "text-[30px]":"hidden"}>
-                                <h2>{rawTasks.length} Tasks Remaining</h2>
-                                <h2 className="pb-3">Upcoming deadline: {rawTasks[0].due_date.split("T")[0]}</h2>
+                            <div className={taskState.length > 0 ? "text-[30px]":"hidden"}>
+                                <h2>{taskState.length} Tasks Remaining</h2>
+                                <h2 className="pb-3">Upcoming deadline: {taskState[0].due_date.split("T")[0]}</h2>
                                 <Add_Task_Form/>
                                 <h2 className="pt-3">Coins: {coins}</h2>
                             </div>

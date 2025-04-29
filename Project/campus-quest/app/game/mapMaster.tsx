@@ -22,7 +22,9 @@ export async function BuyBuilding (buildingName: string, lvl: number) {
     if (lvl == 1) {
         await supabase.from("buildings").insert({"user_id": uid, "name": buildingName, "level": lvl}) 
     } else {
-        await supabase.from("buildings").update({"level": lvl}).eq("id", uid).eq("name", buildingName)
+        
+    console.log(buildingName, lvl)
+        await supabase.from("buildings").update({"level": lvl}).eq("name", buildingName).eq("user_id",uid)
     }
 }
 

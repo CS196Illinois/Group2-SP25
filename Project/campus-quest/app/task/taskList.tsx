@@ -3,7 +3,7 @@ import { CompareTasks, CompleteTask, taskCounts, taskData } from "./taskMaster";
 import Image from "next/image";
 import "./details.css"
 import { act, Dispatch, SetStateAction, useState } from "react";
-import { Delete } from "./taskMaster";
+import { Delete, EditTask } from "./taskMaster";
 
 const TaskList = ({tasks, setTasks, counts, coins, setCoins}: 
     {tasks : taskData[], setTasks : Dispatch<SetStateAction<taskData[]>>, counts : taskCounts,
@@ -30,6 +30,7 @@ const TaskList = ({tasks, setTasks, counts, coins, setCoins}:
         console.log(editTask?.due_date)
         counts[newDay] = (counts[newDay] ? counts[newDay] : 0) + 1
         if (counts[day] == 0) delete counts[day]
+        EditTask(editTask!)
         setEditTask(undefined)
         setActive(0)
         setOption(0)
@@ -65,7 +66,7 @@ const TaskList = ({tasks, setTasks, counts, coins, setCoins}:
                                 required = {true}
                                 onChange={(e) => editTask!.class = e.target.value}
                             />
-                            <label htmlFor="coins">Class</label>
+                            <label htmlFor="coins">Coins</label>
                             <input
                                 id = "coins"
                                 type = "number"
@@ -153,7 +154,7 @@ const TaskList = ({tasks, setTasks, counts, coins, setCoins}:
                             </div>
                             <div className={activeOption == 1 ? "select-none bg-red-700 w-12 rounded-[3] text-white text-[12px]":"hidden"}
                                 onClick={() => {
-                                    // Delete(item.id)
+                                    Delete(item.id)
                                     removeTask(Day[0], item.id)
                                 }}>
                                 <p className="">Delete Task</p>
@@ -162,7 +163,7 @@ const TaskList = ({tasks, setTasks, counts, coins, setCoins}:
                                 onClick={()=> {
                                     removeTask(Day[0], item.id)
                                     setCoins(coins + item.coins)
-                                    // CompleteTask(coins + item.coins)
+                                    CompleteTask(item.id, coins + item.coins)
                                 }}>
                                 <p className="align-middle">Finish Task</p>
                             </div>

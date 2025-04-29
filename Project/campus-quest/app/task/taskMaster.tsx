@@ -43,8 +43,8 @@ export const Delete = async (id: string) => {
     
 }
 
-export const CompleteTask = async (coins: number) => {
-    // Delete(id)
+export const CompleteTask = async (id: string, coins: number) => {
+    Delete(id)
     const {error} = await supabase
                         .from("users")
                         .update({"Coins" : coins})
@@ -52,6 +52,16 @@ export const CompleteTask = async (coins: number) => {
 }
 
 export const EditTask = async (task: taskData) => {
+    const {error} = await supabase
+                        .from("tasks")
+                        .update({"name" : task.name,
+                            "class" : task.class,
+                            "due_date" : task.due_date,
+                            "coins" : task.coins,
+                            "link" : task.link,
+                            "comments" : task.comments
+                        })
+                        .eq("id", task.id)
     console.log(task)
 }
 
@@ -63,6 +73,8 @@ export const AddTasks = async (tasks: any[]) => {
             comments: task.comments,
             due_date: task.dueDate,
             category: task.category,
+            user_id: uid,
+            coins: Math.floor(Math.random() * 5) + 1
         }))
     );
 
