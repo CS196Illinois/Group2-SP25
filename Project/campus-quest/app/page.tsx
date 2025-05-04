@@ -35,11 +35,11 @@ export default function Home() {
         <div className="scale-150">
           <GoogleLogin
             onSuccess={(credentialResponse) => {
-              // console.log("✅ Login Success:", credentialResponse);
-              router.push("/task");
+              console.log("✅ Login Success:", credentialResponse);
+              router.push("/tasktracker");
             }}
             onError={() => {
-              // console.log("❌ Login Failed");
+              console.log("❌ Login Failed");
             }}
             size="large"
           />
